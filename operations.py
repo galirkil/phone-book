@@ -1,3 +1,4 @@
+import json
 from typing import List
 from models import PhoneBookItem
 
@@ -15,13 +16,24 @@ class PhoneBookStorageJson:
         Загружает записи из файла и возвращает их
         в виде списка объектов PhoneBookItem.
         """
-        pass
+        items = []
+        try:
+            with open(self.filename, 'r') as file:
+                data = json.load(file)
+                for notation in data:
+                    item = PhoneBookItem(**notation)
+                    items.append(item)
+        except FileNotFoundError:
+            print('Указанный файл базы данных не найден')
+        return items
 
     def save_items(self, items: List[PhoneBookItem]) -> None:
         """
         Сохраняет список записей в файл.
         """
-        pass
+        data = [item.__dict__ for item in items]
+        with open(self.filename, 'w') as file:
+            json.dump(data, file, indent=4)
 
 
 class PhoneBookOperations:
