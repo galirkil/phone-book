@@ -1,17 +1,13 @@
-
-
-class PhoneBookConsoleUI:
-    """
-    Класс, представляющий пользовательский интерфейс.
-    """
-    pass
+from operations import PhoneBookDriver, PhoneBookStorageJson
+from ui import PhoneBookConsoleUI
 
 
 def main() -> None:
-    """
-    Главная функция для запуска приложения
-    """
-    pass
+    """Главная функция для запуска приложения."""
+    storage = PhoneBookStorageJson('database/phonebook-db.json')
+    driver = PhoneBookDriver(storage)
+    ui = PhoneBookConsoleUI(driver, 50)
+    ui.run()
 
 
 if __name__ == "__main__":
