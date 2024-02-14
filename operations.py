@@ -4,21 +4,15 @@ from models import PhoneBookItem
 
 
 class PhoneBookStorageJson:
-    """
-    Класс, отвечающий за хранение и загрузку данных телефонного справочника.
-    """
-
+    """ Отвечает за работу с базой данных."""
     def __init__(self, filename: str):
         self.filename = filename
 
-    def load_items(self) -> List[PhoneBookItem]:
-        """
-        Загружает записи из файла и возвращает их
-        в виде списка объектов PhoneBookItem.
-        """
-        items = []
+    def load_items(self) -> list[PhoneBookItem]:
+        """Загружает данные из базы данных и возращает список запсей"""
+        items: list[PhoneBookItem] = []
         try:
-            with open(self.filename, 'r') as file:
+            with open(self.filename, 'r', encoding='utf-8') as file:
                 data = json.load(file)
                 for notation in data:
                     item = PhoneBookItem(**notation)
@@ -27,13 +21,11 @@ class PhoneBookStorageJson:
             print('Указанный файл базы данных не найден')
         return items
 
-    def save_items(self, items: List[PhoneBookItem]) -> None:
-        """
-        Сохраняет список записей в файл.
-        """
+    def save_items(self, items: list[PhoneBookItem]) -> None:
+        """Cохраняет записи в базу данных"""
         data = [item.__dict__ for item in items]
-        with open(self.filename, 'w') as file:
-            json.dump(data, file, indent=4)
+        with open(self.filename, 'w', encoding='utf-8') as file:
+            json.dump(data, file, ensure_ascii=False, indent=4)
 
 
 class PhoneBookDriver:
