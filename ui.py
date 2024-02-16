@@ -113,19 +113,20 @@ class PhoneBookConsoleUI:
 
     def edit_item(self) -> None:
         print('Редактирование существующей записи...')
-        item_id = (input('Введите ID записи для редактирования: '))
-        try:
-            item_id = int(item_id)
-        except ValueError:
-            print('Некорректный ввод! Введите числовое значение')
-            self.edit_item()
         max_item_id = len(self.driver.items)
-        if item_id > max_item_id or item_id <= 0:
-            print(
-                f'Введен некорректный индекс! '
-                f'Введите значения от 0 до {max_item_id} включительно'
-            )
-            self.edit_item()
+        while True:
+            try:
+                item_id = int(
+                    (input('Введите ID записи для редактирования: '))
+                )
+                if not 0 < item_id < max_item_id:
+                    raise ValueError
+                break
+            except ValueError:
+                print(
+                    f'Некорректный ввод! '
+                    f'Введите числовое значение от 1 до {max_item_id}'
+                )
         item_to_edit: PhoneBookItem = self.driver.items[item_id - 1]
         print(
             "Введите новые значения "
