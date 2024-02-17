@@ -119,7 +119,7 @@ class PhoneBookConsoleUI:
                 item_id = int(
                     (input('Введите ID записи для редактирования: '))
                 )
-                if not 0 < item_id < max_item_id:
+                if not 0 < item_id <= max_item_id:
                     raise ValueError
                 break
             except ValueError:
